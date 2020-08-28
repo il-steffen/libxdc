@@ -1,4 +1,3 @@
-IDIR =../include
 CC=gcc
 CFLAGS= -g -Ofast -fPIC -fvisibility=hidden -flto -finline-functions #-fprofile-use=program.gcda #-fprofile-generate #-g -fsanitize=address 
 LDFLAGS=-flto
@@ -28,10 +27,13 @@ tester_static: staticlib test/*.c test/*.h
 	$(CC) test/tester.c test/page_cache.c test/helper.c -o build/tester_static -Itest/ -I./ -Lbuild/ -l:libxdc.a -l:libcapstone.so.4 $(CFLAGS) $(LDFLAGS)
 
 install: dynlib
-	cp libxdc.h /usr/include/
-	cp build/libxdc.so /usr/lib/
+	cp libxdc.h /usr/local/include/
+	cp build/libxdc.so /usr/local/lib/
 
-.PHONY: clean
+.PHONY: clean distclean
 
 clean:
-	rm -f $(ODIR)/*.o build/*
+	rm -f $(OBJ)
+
+distclean:
+	rm -f build/* tags
